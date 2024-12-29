@@ -1,0 +1,14 @@
+# Node.js
+node_modules/
+*/node_modules
+
+*.csv
+
+
+# dotenv environment variables file
+.env
+.env.test
+.env.production
+
+# MacOS
+.DS_Store
