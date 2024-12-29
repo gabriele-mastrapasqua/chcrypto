@@ -1,6 +1,9 @@
 # crypto transactional data ingestion in Clickhouse
 This app is a demo on of how to ingest crypto transactional data in Clickhouse, one of the fastest OLAP db, to handle high load of inserts in near-real time and make fast queries. 
 
+Sample dataset for AVAX: `43114_txs.csv.tar.gz`
+
+
 ## architecture
 We will use kafka to ingestion, clikchouse to store and retrive the data and grafana to monitor and show some useful charts of the dataset.
 
