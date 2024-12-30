@@ -41,6 +41,75 @@ app.use("/documentation", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 // simple validation for adresses in AVAX network for from and to parameters
 const addressSchema = z.string().regex(/^0x[a-fA-F0-9]{40}$/);
 
+const parseQueryParams = (req, res) => {
+    const querySchema = z.object({
+        from: addressSchema.optional(),
+        to: addressSchema.optional(),
+        page: z.number().min(1).default(1),
+        limit: z.number().min(1).max(100).default(10),
+        order: z.enum(["DESC", "ASC"]).optional().default("ASC"),
+      });
+    
+      const query = querySchema.safeParse(req.query);
+        return query;
+};
+
+interface QueryValidation {
+    success: boolean;
+    message: string;
+    queryData: {
+        from: string;
+        to: string;
+        view: string;
+        address: string;
+        limit?: number;
+        order?: string;
+        offset?: number;
+        orderBy?: string;
+    };
+};
+
+const validateQueryParams = (query, res)  : QueryValidation => {
+      if (!query.success) {
+        return {
+            success: false,
+            message: "Invalid query parameters",
+            queryData: {}
+        } as QueryValidation;
+      }
+    
+      const { from, to, page, limit, order } = query.data;
+    
+      if (!from && !to) {
+        return {
+                success: false,
+                message: 'Either "from" or "to" parameter is required',
+                queryData: {}
+            } as  QueryValidation;
+      }
+
+      // success parse
+      const offset = (page - 1) * limit;
+      const view = from ? "transactions_from_mv" : "transactions_to_mv";
+      const address = from || to;
+      const orderBy = order ? order : "ASC";
+      
+      return {
+            success: true,
+            message: "Valid query parameters",
+            queryData: {
+                from: from,
+                to: to,
+                view,
+                address,
+                limit: limit || null,
+                order: order || null,
+                offset: offset || undefined,
+                orderBy: orderBy || null,
+            },
+      }
+};
+
 /**
  * @swagger
  * /transactions:
@@ -108,32 +177,12 @@ const addressSchema = z.string().regex(/^0x[a-fA-F0-9]{40}$/);
  *                     type: integer
  */
 app.get("/transactions", async (req, res) => {
-  const querySchema = z.object({
-    from: addressSchema.optional(),
-    to: addressSchema.optional(),
-    page: z.number().min(1).default(1),
-    limit: z.number().min(1).max(100).default(10),
-    order: z.enum(["DESC", "ASC"]).optional().default("ASC"),
-  });
-
-  const query = querySchema.safeParse(req.query);
-
-  if (!query.success) {
-    return res.status(400).send({ error: "Invalid query parameters" });
+  const query = parseQueryParams(req, res);
+  const queryValidation : QueryValidation = validateQueryParams(query, res);
+  if(!queryValidation.success) {
+    return res.status(400).send({ error: queryValidation.message });
   }
-
-  const { from, to, page, limit, order } = query.data;
-
-  if (!from && !to) {
-    return res
-      .status(400)
-      .send({ error: 'Either "from" or "to" parameter is required' });
-  }
-
-  const offset = (page - 1) * limit;
-  const view = from ? "transactions_from_mv" : "transactions_to_mv";
-  const address = from || to;
-  const orderBy = order ? order : "ASC";
+  const { from, to, view, address, offset, limit, orderBy } = queryValidation?.queryData;
 
   const sql = `
     SELECT * FROM ${view}
@@ -185,27 +234,18 @@ app.get("/transactions", async (req, res) => {
  * 
  */
 app.get("/transactions/count", async (req, res) => {
-  const querySchema = z.object({
+  /*const querySchema = z.object({
     from: addressSchema.optional(),
     to: addressSchema.optional(),
-  });
-
-  const query = querySchema.safeParse(req.query);
-
-  if (!query.success) {
-    return res.status(400).send({ error: "Invalid query parameters" });
+  });*/
+  const query = parseQueryParams(req, res);
+  const queryValidation : QueryValidation = validateQueryParams(query, res);
+  if(!queryValidation.success) {
+    return res.status(400).send({ error: queryValidation.message });
   }
 
-  const { from, to } = query.data;
-
-  if (!from && !to) {
-    return res
-      .status(400)
-      .send({ error: 'Either "from" or "to" parameter is required' });
-  }
-
-  const view = from ? "transactions_from_mv" : "transactions_to_mv";
-  const address = from || to;
+  const { from, to, view, address } = queryValidation?.queryData;
+  
 
   const sql = `
     SELECT count(*) as count FROM ${view}
@@ -288,32 +328,12 @@ app.get("/transactions/count", async (req, res) => {
  *                     type: integer
  */
 app.get("/transactions/value", async (req, res) => {
-  const querySchema = z.object({
-    from: addressSchema.optional(),
-    to: addressSchema.optional(),
-    page: z.number().min(1).default(1),
-    limit: z.number().min(1).max(100).default(10),
-    order: z.enum(["DESC", "ASC"]).optional().default("ASC"),
-  });
-
-  const query = querySchema.safeParse(req.query);
-
-  if (!query.success) {
-    return res.status(400).send({ error: "Invalid query parameters" });
+  const query = parseQueryParams(req, res);
+  const queryValidation : QueryValidation = validateQueryParams(query, res);
+  if(!queryValidation.success) {
+    return res.status(400).send({ error: queryValidation.message });
   }
-
-  const { from, to, page, limit, order } = query.data;
-
-  if (!from && !to) {
-    return res
-      .status(400)
-      .send({ error: 'Either "from" or "to" parameter is required' });
-  }
-
-  const offset = (page - 1) * limit;
-  const view = from ? "transactions_from_mv" : "transactions_to_mv";
-  const address = from || to;
-  const orderBy = order ? order : "ASC";
+  const { from, to, view, address, offset, limit, orderBy } = queryValidation?.queryData;
 
   const sql = `
     SELECT * FROM ${view}

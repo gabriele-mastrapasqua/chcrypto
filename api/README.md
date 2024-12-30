@@ -20,3 +20,11 @@ You can access the Swagger documentation for those endpoints at http://localhost
 - [ ] more validation and handling of exceptions
 - [ ] e2e test integrations from api and ch
 - [ ] types for req / responses
+
+
+## TEST 
+
+test fetching a single from address:
+```sh
+curl "http://localhost:3000/transactions?from=0x995BE1CA945174D5bA75410C1E658a41eB13a2FA"
+```
