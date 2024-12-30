@@ -24,8 +24,8 @@ Used to monitor (and optionally create alarms on some metrics) kafka and clikcho
 
 ## start the project
 
-- Step 1:
-Run docker compose to setup the system:
+### Step 1: setup the system and dependencies
+Run docker compose to setup the system and bootstrap the ch db:
 
 To start docker run (add `-d` to run as a deamon):
 ```sh
@@ -37,23 +37,37 @@ To stop this setup run:
 docker-compose down
 ```
 
-- Step 2:
+This command should run clickhouse, kafka, grafana and an nodejs api service plus an ingestion script that loads live data from the chain.
 
-Run:
+If all is working correctly, you can try to access clickhouse web interface: http://localhost:8123/play 
+
+
+
+### Step 2a: ingest manually the sample file to test ch
+To start ingesting data from the sample file in the folder `./data` run:
+
 ```sh
-npm run --prefix ./ingest ingest
+docker run --rm -v $(pwd)/ingest:/usr/src/app -w /usr/src/app node:23.5.0 npm run ingestFile
 ```
+
+> NOTE: This docker run command is a one time commands, useful for debug / test the solution.
+
+### Step 2b: Check Grafana web UI and try some queries
+Grafana is installed in this solution, and can be used as an admin tool to check the ch status and query performances with the default dashboards offered by the plugin, but also to make custom queries and charts using this connector as custom dashboard.
+
+Try to make some queries and check if the dataset is working fine.
+
+> NOTE: The docker for ingestion has a process that will fetch and insert new live data from the AVAX blockchain into clickhouse. So check also the ingest logs for errors, and ch to see if new block data are updated in the tables.
 
 For more info read the [ingest/README](./ingest/README.md)
 
-- Step 3:
-
-~~~~~ TODO ~~~~~~~~
-~~~~~ TODO ~~~~~~~~
-
-Run ****test****  to run api query endpoints
-
-~~~~~ TODO ~~~~~~~~
-~~~~~ TODO ~~~~~~~~
+### Step 3: API queries
+Try the public api under http://localhost:3000 and follow the swagger docs under http://localhost:3000/documentation .
 
 For more info read the [api/README](./api/README.md)
+
+## TODO - improvements
+- [ ] shared lib for zod and ts types commonly used for ingestion, api, ...
+- [ ] e2e run test for api endpoints with perf check, and write in docker init scrips so it's automatically run after each restart
+- [ ] clean up data from the csv files used for test
+- [ ] checksum files 
