@@ -41,15 +41,31 @@ services:
       - "9009:9009" # Interserver communication port
     volumes:
       - clickhouse_data:/var/lib/clickhouse
-      - ./clickhouse/init-clickhouse.sh:/docker-entrypoint-initdb.d/init-clickhouse.sh
-
-    # init script for CH schemas
-    #entrypoint: /docker-entrypoint-initdb.d/init-clickhouse.sh
+      - clickhouse_config:/etc/clickhouse-server
+    # healthcheck to wait for the clickhouse server to be ready
+    healthcheck:
+      test: ["CMD-SHELL", "clickhouse-client -q 'SELECT 1'"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
     environment:
       CLICKHOUSE_DB: default
       CLICKHOUSE_USER: default
       CLICKHOUSE_PASSWORD: ""
+
+  # clickhouse migrations service: use the ch client after the server is started, 
+  # to create the necessary schemas and tables
+  clickhouse_migrations:
+    image: clickhouse:lts-focal  # use the same image as above for the server, 1 download with all tools needed
+    container_name: clickhouse_migrations
+    depends_on:
+      clickhouse:
+        condition: service_healthy
+    volumes:
+      - ./clickhouse/init-clickhouse.sh:/docker-entrypoint-initdb.d/init-clickhouse.sh
+      - ./clickhouse/schema:/docker-entrypoint-initdb.d/schema
+    entrypoint: /docker-entrypoint-initdb.d/init-clickhouse.sh
 
   # grafana with init script to load clickhouse official plugin  
   grafana:
@@ -94,4 +110,5 @@ services:
 
 volumes:
   clickhouse_data:
+  clickhouse_config:
   grafana_data:
