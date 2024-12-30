@@ -15,3 +15,8 @@ We use 3 simple endpoints to fetch some data for transactions using `from` or `t
 
 You can access the Swagger documentation for those endpoints at http://localhost:3000/documentation.
 
+## TODO - nice to have
+- [ ] a date filter to fetch on all apis a range of time
+- [ ] more validation and handling of exceptions
+- [ ] e2e test integrations from api and ch
+- [ ] types for req / responses

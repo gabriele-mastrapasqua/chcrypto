@@ -25,7 +25,6 @@ const clickhouse = new ClickHouse({
 });
 
 // Register Swagger
-
 const swaggerOptions = {
   definition: {
     openapi: "3.0.0",
@@ -36,9 +35,7 @@ const swaggerOptions = {
   },
   apis: ["./src/server.ts"], // files containing annotations as above
 };
-
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
-
 app.use("/documentation", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // simple validation for adresses in AVAX network for from and to parameters
