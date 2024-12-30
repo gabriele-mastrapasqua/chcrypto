@@ -26,7 +26,7 @@ const clickhouse = new ClickHouse({
 
 // Register Swagger
 
-const options = {
+const swaggerOptions = {
   definition: {
     openapi: "3.0.0",
     info: {
@@ -37,7 +37,7 @@ const options = {
   apis: ["./src/server.ts"], // files containing annotations as above
 };
 
-const swaggerSpec = swaggerJsdoc(options);
+const swaggerSpec = swaggerJsdoc(swaggerOptions);
 
 app.use("/documentation", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
@@ -92,23 +92,23 @@ const addressSchema = z.string().regex(/^0x[a-fA-F0-9]{40}$/);
  *                   timestamp:
  *                     type: string
  *                   status:
- *                     type: string
+ *                     type: boolean
  *                   block_number:
- *                     type: string
+ *                     type: integer
  *                   tx_index:
- *                     type: string
+ *                     type: integer
  *                   from:
  *                     type: string
  *                   to:
  *                     type: string
  *                   value:
- *                     type: string
+ *                     type: integer
  *                   gas_limit:
- *                     type: string
+ *                     type: integer
  *                   gas_used:
- *                     type: string
+ *                     type: integer
  *                   gas_price:
- *                     type: string
+ *                     type: integer
  */
 app.get("/transactions", async (req, res) => {
   const querySchema = z.object({
@@ -261,23 +261,23 @@ app.get("/transactions/count", async (req, res) => {
  *                   timestamp:
  *                     type: string
  *                   status:
- *                     type: string
+ *                     type: boolean
  *                   block_number:
- *                     type: string
+ *                     type: integer
  *                   tx_index:
- *                     type: string
+ *                     type: integer
  *                   from:
  *                     type: string
  *                   to:
  *                     type: string
  *                   value:
- *                     type: string
+ *                     type: integer
  *                   gas_limit:
- *                     type: string
+ *                     type: integer
  *                   gas_used:
- *                     type: string
+ *                     type: integer
  *                   gas_price:
- *                     type: string
+ *                     type: integer
  */
 app.get("/transactions/value", async (req, res) => {
   const querySchema = z.object({
