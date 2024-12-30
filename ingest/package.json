@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "ingestFile": "tsx loadTransactions.ts",
+    "ingestFile": "tsx loadTransactionsFile.ts",
     "ingestLive": "tsx loadTransactionsLive.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
