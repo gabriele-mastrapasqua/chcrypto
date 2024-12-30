@@ -1,4 +1,4 @@
-CREATE MATERIALIZED VIEW transactions_from_mv
+CREATE MATERIALIZED VIEW IF NOT EXISTS transactions_from_mv
 
 ENGINE = MergeTree()
 PARTITION BY toYYYYMM(timestamp)

@@ -1,4 +1,4 @@
-CREATE TABLE kafka_transactions (
+CREATE TABLE IF NOT EXISTS kafka_transactions (
     timestamp DateTime,
     status Bool,
     block_number UInt64,
