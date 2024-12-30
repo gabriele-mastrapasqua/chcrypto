@@ -5,7 +5,7 @@ Sample dataset for AVAX: `43114_txs.csv.tar.gz`
 
 
 ## architecture
-We will use kafka as a producer for ingestion, clikchouse as a consumer and as a store to save the data and the main data warehouse for this solution. Grafana will be used to monitor the kafka and clikchouse systems and to be used as an administration tool to show some useful charts of the dataset imported.
+We will use kafka as a producer for ingestion, clickhouse as a consumer and as a store to save the data and the main data warehouse for this solution. Grafana will be used to monitor the kafka and clikchouse systems and to be used as an administration tool to show some useful charts of the dataset imported.
 
 Use cases:
 
