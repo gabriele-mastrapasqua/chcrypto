@@ -8,8 +8,8 @@ Kafka will be connected to a clickhouse kafka engine table, so it will stream th
 Run docker compose and have a running kafka available before running this script.
 
 ## run 
-To start ingesting data from the folder `./data` run:
+To start ingesting data from the sample file in the folder `./data` run:
 
 ```sh
-npm run ingest
+docker run --rm -v $(pwd)/ingest:/usr/src/app -w /usr/src/app node:23.5.0 npm run ingestFile
 ```

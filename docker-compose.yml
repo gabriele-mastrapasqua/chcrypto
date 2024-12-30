@@ -64,6 +64,14 @@ services:
     environment:
       - NODE_ENV=production
 
+  # ingest nodejs script to fetch live blockchain data
+  ingest:
+    build:
+      context: ./ingest
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=production
+
 volumes:
   clickhouse_data:
   grafana_data:

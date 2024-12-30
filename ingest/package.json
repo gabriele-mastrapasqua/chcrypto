@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "ingest": "tsx loadTransactions.ts",
+    "ingestFile": "tsx loadTransactions.ts",
+    "ingestLive": "tsx loadTransactionsLive.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -12,9 +13,13 @@
   "dependencies": {
     "csv-parser": "^3.1.0",
     "kafkajs": "^2.2.4",
+    "viem": "^2.21.59",
     "zod": "^3.24.1"
   },
   "devDependencies": {
     "tsx": "^4.19.2"
+  },
+  "engines": {
+    "node": ">=23.5.0"
   }
 }
