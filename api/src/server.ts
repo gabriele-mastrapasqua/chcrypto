@@ -176,6 +176,13 @@ app.get("/transactions", async (req, res) => {
  *               properties:
  *                 count:
  *                   type: integer
+ *                 address:
+ *                   type: string
+ *                 address_type:
+ *                   type: string
+ *                   enum: [from, to]
+ * 
+ * 
  */
 app.get("/transactions/count", async (req, res) => {
   const querySchema = z.object({
@@ -207,7 +214,11 @@ app.get("/transactions/count", async (req, res) => {
 
   const result = await clickhouse.query(sql).toPromise();
 
-  return res.json(result[0]);
+  return res.json({
+    'address_type': `${from ? "`from`" : "`to`"}`,
+    'address': address,
+    'count': result[0]
+    });
 });
 
 /**
