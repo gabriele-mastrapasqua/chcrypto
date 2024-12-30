@@ -21,6 +21,7 @@ You can access the Swagger documentation for those endpoints at http://localhost
 - [ ] e2e test integrations from api and ch
 - [ ] types for req / responses
 - [ ] types for clickhouse responses and zod validation of what we expect
+- [ ] add telemetry to check api and ch response time maybe using open telemetry or similar.
 
 
 ## TEST 
