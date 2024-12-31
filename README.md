@@ -58,7 +58,10 @@ If all is working correctly, you can try to access clickhouse web interface: htt
 ### Step 2a: ingest manually the sample file to test ch
 To start ingesting data from the sample file in the folder `./data` run:
 
+ensure docker compose is running.
+In another terminal run one time to load some sample data:
 ```sh
+
 make ingestFile
 ```
 

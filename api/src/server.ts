@@ -7,8 +7,10 @@ import swaggerJsdoc from "swagger-jsdoc";
 const app = express();
 const port = 3000;
 
+const host = process.env.CLICKHOUSE_HOST || "clickhouse";
+
 const clickhouse = new ClickHouse({
-  url: "http://clickhouse",
+  url: `http://${host}`,
   port: 8123,
   debug: false,
   basicAuth: null,

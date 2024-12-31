@@ -20,9 +20,11 @@ const transactionSchema = z.object({
 type Transaction = z.infer<typeof transactionSchema>;
 
 // Initialize Kafka
+const kafkaBroker = process.env.KAFKA_BROKER || 'localhost:9092';
+
 const kafka = new Kafka({
   clientId: 'ch-crypto-transactions',
-  brokers: ['kafka:9092'],
+  brokers: [kafkaBroker],
 });
 
 const producer = kafka.producer();
