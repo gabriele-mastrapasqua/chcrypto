@@ -27,12 +27,24 @@ Used to monitor (and optionally create alarms on some metrics) kafka and clikcho
 ### Step 1: setup the system and dependencies
 Run docker compose to setup the system and bootstrap the ch db:
 
-To start docker run (add `-d` to run as a deamon):
+- start:
+```sh
+make rebuild
+```
+- stop and remove all unused images:
+```sh
+make down
+```
+
+
+Or run with docker directly:
+
+- To start docker run (add `-d` to run as a deamon):
 ```sh
 docker-compose up
 ```
 
-To stop this setup run:
+- To stop this setup run:
 ```sh
 docker-compose down
 ```
@@ -47,7 +59,7 @@ If all is working correctly, you can try to access clickhouse web interface: htt
 To start ingesting data from the sample file in the folder `./data` run:
 
 ```sh
-docker run --rm -v $(pwd)/ingest:/usr/src/app -w /usr/src/app node:23.5.0 npm run ingestFile
+make ingestFile
 ```
 
 > NOTE: This docker run command is a one time commands, useful for debug / test the solution.
@@ -69,5 +81,4 @@ For more info read the [api/README](./api/README.md)
 ## TODO - improvements
 - [ ] shared lib for zod and ts types commonly used for ingestion, api, ...
 - [ ] e2e run test for api endpoints with perf check, and write in docker init scrips so it's automatically run after each restart
-- [ ] clean up data from the csv files used for test
-- [ ] checksum files 
+- [ ] track ingested files (checksum) so you can skip previous imported files / clean up data from the csv files used for test
