@@ -4,39 +4,40 @@ services:
   
   # Kafka with zookeeper
   zookeeper:
-    #image: wurstmeister/zookeeper:3.4.6
-    image: bitnami/zookeeper:latest
+    image: docker.io/bitnami/zookeeper:3.9
     ports:
       - "2181:2181"
+    volumes:
+      - "zookeeper_data:/bitnami"
     environment:
-      ZOOKEEPER_CLIENT_PORT: 2181
-      ZOOKEEPER_TICK_TIME: 2000
-      ZOOKEEPER_SYNC_LIMIT: 2
-      ALLOW_ANONYMOUS_LOGIN: yes
-
+      - ALLOW_ANONYMOUS_LOGIN=yes
+  
   kafka:
-    #image: wurstmeister/kafka:2.12-2.2.1
-    image: bitnami/kafka:latest
+    image: docker.io/bitnami/kafka:3.4
     ports:
       - "9092:9092"
+    volumes:
+      - "kafka_data:/bitnami"
+    environment:
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093,EXTERNAL://:9094
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092,EXTERNAL://localhost:9094
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,EXTERNAL:PLAINTEXT,PLAINTEXT:PLAINTEXT
+
     depends_on:
       - zookeeper
-    environment:
-      # specify the zookeeper server settings for docker
-      #KAFKA_LISTENERS: INTERNAL://0.0.0.0:9092,OUTSIDE://0.0.0.0:9092
-      #KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka:9092,OUTSIDE://localhost:9092
-      #KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,OUTSIDE:PLAINTEXT
-      #KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
-      #KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      - KAFKA_BROKER_ID=1
-      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
-      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
-      - KAFKA_LISTENERS=PLAINTEXT://:9092
-      - ALLOW_PLAINTEXT_LISTENER=yes
-      - KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE=true
 
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+  kafka-ui:
+    depends_on:
+      - kafka
+      - zookeeper
+    container_name: kafka-ui
+    image: provectuslabs/kafka-ui:latest
+    ports:
+      - 8080:8080
+    environment:
+      DYNAMIC_CONFIG_ENABLED: 'true'
+    
 
   clickhouse:
     # latest LTS version of ClickHouse since 2024.
@@ -125,3 +126,5 @@ volumes:
   clickhouse_data:
   clickhouse_config:
   grafana_data:
+  zookeeper_data:
+  kafka_data:

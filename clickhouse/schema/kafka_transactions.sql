@@ -1,3 +1,6 @@
+
+DROP TABLE IF EXISTS kafka_transactions;
+
 CREATE TABLE IF NOT EXISTS kafka_transactions (
     timestamp DateTime,
     status Bool,
@@ -10,8 +13,8 @@ CREATE TABLE IF NOT EXISTS kafka_transactions (
     gas_used UInt256,
     gas_price UInt256
 ) ENGINE = Kafka
-SETTINGS kafka_broker_list = 'localhost:9092',
-         kafka_topic_list = 'transactions',
+SETTINGS kafka_broker_list = 'kafka:9092',
+         kafka_topic_list = 'ch-crypto-transactions',
          kafka_group_name = 'clickhouse_group',
          kafka_format = 'JSONEachRow',
          kafka_num_consumers = 1;
