@@ -8,7 +8,7 @@ const app = express();
 const port = 3000;
 
 const clickhouse = new ClickHouse({
-  url: "http://localhost",
+  url: "http://clickhouse",
   port: 8123,
   debug: false,
   basicAuth: null,
@@ -104,7 +104,7 @@ const validateQueryParams = (query, res)  : QueryValidation => {
                 address,
                 limit: limit || null,
                 order: order || null,
-                offset: offset || undefined,
+                offset: offset || 0,
                 orderBy: orderBy || null,
             },
       }
