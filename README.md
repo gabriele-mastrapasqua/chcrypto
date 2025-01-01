@@ -17,7 +17,8 @@ ingest transactional data then clikchouse streams the data in a table as a first
 
 See integrating kafka in Clickhouse for more info: https://clickhouse.com/docs/en/integrations/kafka/kafka-table-engine
 
-Here is a screen of the kafka UI:
+
+We use also kafka UI, it's useful to see messages streamed through kafka and for debug:
 ![Kafka](./screenshots/kafka%20ui.png)
 
 
@@ -36,6 +37,7 @@ Here are some grafana ch plugin dashboards:
 ![Grafana CH cluster analysis](./screenshots/ch%20cluster%20analysis.png)
 ![Grafana CH data analysis](./screenshots/ch%20data%20analysis.png)
 ![Grafana CH query analysis](./screenshots/ch%20query%20analysis.png)
+![Grafana CH detailed performance analysis](./screenshots/ch%20monitoring%20dashboard.png)
 
 
 ## Start the project
