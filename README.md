@@ -79,14 +79,12 @@ This will spin up also a ch migration docker and a nodejs process that will star
 
 
 ### Step 2a: ingest manually the sample file to test ch
-To start ingesting data from the sample file in the folder `./data` run:
-
-ensure docker compose is running.
-In another terminal run one time to load some sample data:
+To start ingesting data from the sample file in the folder `./data`, in another terminal run:
 ```sh
 make ingestFile
 ```
 
+This will batch send messages to kafka:
 ![ingest from a sample file 1mil rows](./screenshots/ingest%20from%20file.png)
 
 > NOTE: This command is a one time command, useful for debug / test the solution loading 1 mil rows in the db and to check query performance.
