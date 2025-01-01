@@ -1,7 +1,7 @@
 # AVAX Cryptocurrency analytics for transactional data in Clickhouse
 This application is a demo on of how to ingest crypto transactional data in Clickhouse, one of the fastest OLAP db, to handle high load of inserts and make queries in near-real time. 
 
-This project can ingest from a sample file with 1 mil rows from AVAX chain, or with another process that will load live data from the AVAX mainnet.
+This project can ingest from a sample file with 1 mil rows from AVAX chain, or with another process that will stream live data from the AVAX mainnet in our db.
 
 Sample dataset used for AVAX: `43114_txs.csv.tar.gz`
 
