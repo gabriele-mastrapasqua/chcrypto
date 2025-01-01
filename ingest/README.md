@@ -7,9 +7,12 @@ Kafka will be connected to a clickhouse kafka engine table, so it will stream th
 ## prerequisites
 Run docker compose and have a running kafka available before running this script.
 
-## run 
-To start ingesting data from the sample file in the folder `./data` run:
+## load a file manually for test 
+To start ingesting data from the sample file in the folder `./data` run from the root of this project:
 
 ```sh
-docker run --rm -v $(pwd)/ingest:/usr/src/app -w /usr/src/app node:23.5.0 npm run ingestFile
+make ingestFile
 ```
+
+## live data
+The docker file for ingest project will have as an entrypoint a script that will start and fetch live C-Chain data from AVAX. it will then parse and convert them and store in ch through kafka.

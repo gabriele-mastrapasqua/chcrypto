@@ -104,43 +104,48 @@ async function run() {
     onBlock: async (block) => {
       console.log("New block:", block.hash);
 
-      const blockDetails = await avaxClient.getBlock({ blockHash: block.hash });
-      console.log("Block details: ", blockDetails);
+      // wrap in a try catch cause viem could gives RPC errors sometimes
+      try {
+        const blockDetails = await avaxClient.getBlock({
+          blockHash: block.hash,
+        });
+        console.log("Block details: ", blockDetails);
 
-      if (blockDetails.transactions.length > 0) {
-        console.log(`Transactions in block ${blockDetails.number}:`);
+        if (blockDetails.transactions.length > 0) {
+          console.log(`Transactions in block ${blockDetails.number}:`);
 
-        const transactions = blockDetails.transactions;
-        console.log(
-          `Found new transactions for block ${block}, count: ${transactions.length} `,
-          transactions
-        );
+          const transactions = blockDetails.transactions;
+          console.log(
+            `Found new transactions for block ${block}, count: ${transactions.length} `,
+            transactions
+          );
 
-        // process the transactions: send to kafka topic to produce an ingestion to ClickHouse
-        for (const transaction of transactions) {
-          try {
-            const tx = await avaxClient.getTransaction({ hash: transaction });
-            console.log("Transaction data extracted: ", tx);
+          // process the transactions: send to kafka topic to produce an ingestion to ClickHouse
+          for (const transaction of transactions) {
+            try {
+              const tx = await avaxClient.getTransaction({ hash: transaction });
+              console.log("Transaction data extracted: ", tx);
 
-            // map the transaction to the schema used in ch
-            const outputTransaction = mapAvaxTransactionToChSchema(
-              tx as unknown as InputTransaction
-            );
-            console.log("CH mapped data: ", outputTransaction);
+              // map the transaction to the schema used in ch
+              const outputTransaction = mapAvaxTransactionToChSchema(
+                tx as unknown as InputTransaction
+              );
+              console.log("CH mapped data: ", outputTransaction);
 
-            await producer.send({
-              topic: "ch-crypto-transactions",
-              messages: [{ value: JSON.stringify(outputTransaction) }],
-            });
-
-          } catch (error) {
-            console.error("Failed to get transaction data: ", error);
-            continue;
+              await producer.send({
+                topic: "ch-crypto-transactions",
+                messages: [{ value: JSON.stringify(outputTransaction) }],
+              });
+            } catch (error) {
+              console.error("Failed to get transaction data: ", error);
+              continue;
+            }
           }
-          
+        } else {
+          console.log(`No transactions in block ${blockDetails.number}`);
         }
-      } else {
-        console.log(`No transactions in block ${blockDetails.number}`);
+      } catch (error) {
+        console.error("Viem error when fetching block details: ", error);
       }
     },
   });

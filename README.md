@@ -13,10 +13,8 @@ Use cases:
 
 - Clickhouse: 
 we use those features to improve reading performance for those type of data: 
-
-- a Kafka engine table to connect and stream kafka dataset into a table in clikchouse automatically
-- a materialized view to load final transactions and improve performance for reading based on our use cases, in this example we need to index efficiently for `from` and `to` adresses for all on-chain transactions.
-
+    - a Kafka engine table to connect and stream kafka dataset into a table in clikchouse automatically
+    - a materialized view to load final transactions and improve performance for reading based on our use cases, in this example we need to index efficiently for `from` and `to` adresses for all on-chain transactions.
 
 - Grafana:
 Used to monitor (and optionally create alarms on some metrics) kafka and clikchouse nodes. We can also use this tool as an administration frontend to create custom queries for clikchouse, charts and data tables based on the real dataset from the db, without writing a custom frontend.
@@ -64,7 +62,8 @@ In another terminal run one time to load some sample data:
 make ingestFile
 ```
 
-> NOTE: This docker run command is a one time commands, useful for debug / test the solution.
+> NOTE: This command is a one time commands, useful for debug / test the solution loading 1 mil rows in the db.
+> NOTE: set your docker desktop at least with 4gb or ram allocated for all docker services.
 
 ### Step 2b: Check Grafana web UI and try some queries
 Grafana is installed in this solution, and can be used as an admin tool to check the ch status and query performances with the default dashboards offered by the plugin, but also to make custom queries and charts using this connector as custom dashboard.
