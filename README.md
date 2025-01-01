@@ -7,7 +7,7 @@ Sample dataset for AVAX: `43114_txs.csv.tar.gz`
 ## architecture
 We will use kafka as a producer for ingestion, clickhouse as a consumer and as a store to save the data and the main data warehouse for this solution. Grafana will be used to monitor the kafka and clikchouse systems and to be used as an administration tool to show some useful charts of the dataset imported.
 
-![Architecture](screenshots/kafka to clickhouse.png?raw=true)
+![Architecture](./screenshots/kafka%20to%20clickhouse.png?raw=true)
 
 
 #### Kafka
@@ -16,7 +16,7 @@ ingest transactional data then clikchouse streams the data in a table as a first
 See integrating kafka in Clickhouse for more info: https://clickhouse.com/docs/en/integrations/kafka/kafka-table-engine
 
 Here is a screen of the kafka UI:
-![Kafka](./screenshots/kafka ui.png)
+![Kafka](./screenshots/kafka%20ui.png)
 
 
 #### Clickhouse: 
@@ -24,16 +24,16 @@ we use those features to improve reading performance for those type of data:
     - a Kafka engine table to connect and stream kafka dataset into a table in clikchouse automatically
     - a materialized view to load final transactions and improve performance for reading based on our use cases, in this example we need to index efficiently for `from` and `to` adresses for all on-chain transactions.
 
-![ClickHouse](./screenshots/ch webui.png)
+![ClickHouse](./screenshots/ch%20webui.png)
 
 
 #### Grafana:
 Used to monitor (and optionally create alarms on some metrics) kafka and clikchouse nodes. We can also use this tool as an administration frontend to create custom queries for clikchouse, charts and data tables based on the real dataset from the db, without writing a custom frontend.
 
 Here are some grafana ch plugin dashboards:
-![Grafana CH cluster analysis](./screenshots/ch cluster analysis.png)
-![Grafana CH data analysis](./screenshots/ch data analysis.png)
-![Grafana CH query analysis](./screenshots/ch query analysis.png)
+![Grafana CH cluster analysis](./screenshots/ch%20cluster%20analysis.png)
+![Grafana CH data analysis](./screenshots/ch%20data%20analysis.png)
+![Grafana CH query analysis](./screenshots/ch%20query%20analysis.png)
 
 
 ## start the project
@@ -95,7 +95,7 @@ Try the public api under http://localhost:3000 and follow the swagger docs under
 
 For more info read the [api/README](./api/README.md)
 
-![API docs](./screenshots/swagger api.png)
+![API docs](./screenshots/swagger%20api.png)
 
 
 ## TODO - improvements
