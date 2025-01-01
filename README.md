@@ -72,7 +72,7 @@ This command should run clickhouse, kafka, grafana and an nodejs api service plu
 
 If all is working correctly, you can try to access clickhouse web interface: http://localhost:8123/play 
 
-
+This will spin up also a ch migration docker and a nodejs process that will start to stream live AVAX transaction data to kafka. 
 
 ### Step 2a: ingest manually the sample file to test ch
 To start ingesting data from the sample file in the folder `./data` run:
@@ -83,7 +83,7 @@ In another terminal run one time to load some sample data:
 make ingestFile
 ```
 
-> NOTE: This command is a one time commands, useful for debug / test the solution loading 1 mil rows in the db.
+> NOTE: This command is a one time command, useful for debug / test the solution loading 1 mil rows in the db and to check query performance.
 > NOTE: set your docker desktop at least with 4gb or ram allocated for all docker services.
 
 ### Step 2b: Check Grafana web UI and try some queries
