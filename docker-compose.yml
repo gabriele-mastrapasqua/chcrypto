@@ -4,6 +4,7 @@ services:
   
   # Kafka with zookeeper
   zookeeper:
+    restart: always
     image: docker.io/bitnami/zookeeper:3.9
     ports:
       - "2181:2181"
@@ -13,6 +14,7 @@ services:
       - ALLOW_ANONYMOUS_LOGIN=yes
   
   kafka:
+    restart: always
     image: docker.io/bitnami/kafka:3.4
     ports:
       - "9092:9092"
