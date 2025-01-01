@@ -61,7 +61,6 @@ To start ingesting data from the sample file in the folder `./data` run:
 ensure docker compose is running.
 In another terminal run one time to load some sample data:
 ```sh
-
 make ingestFile
 ```
 

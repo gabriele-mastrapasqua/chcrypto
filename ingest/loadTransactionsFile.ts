@@ -21,12 +21,12 @@ type Transaction = z.infer<typeof transactionSchema>;
 
 // Initialize Kafka
 const kafkaBroker = process.env.KAFKA_BROKER || "localhost:9092";
+console.log("*** Kafka broker:", kafkaBroker);
 
 const kafka = new Kafka({
   clientId: "ch-crypto-transactions",
   brokers: [kafkaBroker],
 });
-
 const producer = kafka.producer();
 
 async function run() {
@@ -53,14 +53,30 @@ async function run() {
     })
     .on("end", async () => {
       // send all rows from file in Kafka
-      for (const transaction of results) {
+      console.log("Start sending batch transactions to Kafka. len: ", results.length);
+
+      await producer.sendBatch({
+        topicMessages: [
+          {
+            topic: "ch-crypto-transactions",
+            messages: results,
+          },
+        ],
+      });
+
+      /*for (const transaction of results) {
+        console.log("sending transaction to kafka: ", transaction);
+
         await producer.send({
           topic: "ch-crypto-transactions",
           messages: [{ value: JSON.stringify(transaction) }],
         });
-      }
-      await producer.disconnect();
+      }*/
+
       console.log("All transactions have been sent to Kafka.");
+
+      await producer.disconnect();
+      console.log("Kafka client disconnected");
     });
 }
 
