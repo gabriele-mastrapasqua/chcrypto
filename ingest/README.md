@@ -16,3 +16,5 @@ make ingestFile
 
 ## live data
 The docker file for ingest project will have as an entrypoint a script that will start and fetch live C-Chain data from AVAX. it will then parse and convert them and store in ch through kafka.
+
+![ingest live data from AVAX](./screenshots/ingest%20live.png)
