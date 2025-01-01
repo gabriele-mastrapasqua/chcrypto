@@ -87,6 +87,8 @@ In another terminal run one time to load some sample data:
 make ingestFile
 ```
 
+![ingest from a sample file 1mil rows](./screenshots/ingest%20from%20file.png)
+
 > NOTE: This command is a one time command, useful for debug / test the solution loading 1 mil rows in the db and to check query performance.
 > NOTE: set your docker desktop at least with 2-4gb or ram allocated for all docker services.
 

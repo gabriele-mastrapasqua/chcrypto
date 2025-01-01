@@ -14,6 +14,9 @@ To start ingesting data from the sample file in the folder `./data` run from the
 make ingestFile
 ```
 
+![ingest from a sample file 1mil rows](../screenshots/ingest%20from%20file.png)
+
+
 ## live data
 The docker file for ingest project will have as an entrypoint a script that will start and fetch live C-Chain data from AVAX. it will then parse and convert them and store in ch through kafka.
 
