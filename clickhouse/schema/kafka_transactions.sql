@@ -1,4 +1,8 @@
 
+-- drop first the mat views if they exist
+DROP TABLE IF EXISTS transactions_from_mv;
+DROP TABLE IF EXISTS transactions_to_mv;
+-- then drop the kafka table
 DROP TABLE IF EXISTS kafka_transactions;
 
 CREATE TABLE IF NOT EXISTS kafka_transactions (
