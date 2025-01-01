@@ -5,6 +5,7 @@ providers:
     orgId: 1
     folder: ''
     type: file
+    title: 'Dashboards'
     disableDeletion: false
     updateIntervalSeconds: 10
     options:

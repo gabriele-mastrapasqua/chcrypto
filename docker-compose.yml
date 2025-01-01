@@ -89,13 +89,13 @@ services:
       - ./grafana/datasource.yaml:/etc/grafana/provisioning/datasources/datasource.yaml
       - ./grafana/dashboards.yaml:/etc/grafana/provisioning/dashboards/dashboards.yaml
       - ./grafana/dashboards:/etc/grafana/provisioning/dashboards
-      - ./grafana/init-grafana.sh:/init-grafana.sh
+      #- ./grafana/init-grafana.sh:/init-grafana.sh
       - grafana_data:/var/lib/grafana
-    entrypoint: /init-grafana.sh
+    #entrypoint: /init-grafana.sh
     ports:
-      - "3030:3030"
+      - "3030:3000"
     environment:
-      #- GF_INSTALL_PLUGINS="grafana-piechart-panel,grafana-clickhouse-datasource"
+      - GF_INSTALL_PLUGINS=grafana-clickhouse-datasource
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=admin
   
