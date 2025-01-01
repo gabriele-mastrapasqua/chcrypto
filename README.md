@@ -6,7 +6,7 @@ This project can ingest from a sample file with 1 mil rows from AVAX chain, or w
 Sample dataset used for AVAX: `43114_txs.csv.tar.gz`
 
 
-## architecture
+## Architecture
 We will use kafka as a producer for ingestion, clickhouse as a consumer and as a store to save the data and the main data warehouse for this solution. Grafana will be used to monitor the kafka and clikchouse systems and to be used as an administration tool to show some useful charts of the dataset imported.
 
 ![Architecture](./screenshots/kafka%20to%20clickhouse.png?raw=true)
@@ -21,7 +21,7 @@ Here is a screen of the kafka UI:
 ![Kafka](./screenshots/kafka%20ui.png)
 
 
-#### Clickhouse: 
+#### Clickhouse
 we use those features to improve reading performance for those type of data: 
     - a Kafka engine table to connect and stream kafka dataset into a table in clikchouse automatically
     - a materialized view to load final transactions and improve performance for reading based on our use cases, in this example we need to index efficiently for `from` and `to` adresses for all on-chain transactions.
@@ -29,7 +29,7 @@ we use those features to improve reading performance for those type of data:
 ![ClickHouse](./screenshots/ch%20webui.png)
 
 
-#### Grafana:
+#### Grafana
 Used to monitor (and optionally create alarms on some metrics) kafka and clikchouse nodes. We can also use this tool as an administration frontend to create custom queries for clikchouse, charts and data tables based on the real dataset from the db, without writing a custom frontend.
 
 Here are some grafana ch plugin dashboards:
@@ -38,7 +38,8 @@ Here are some grafana ch plugin dashboards:
 ![Grafana CH query analysis](./screenshots/ch%20query%20analysis.png)
 
 
-## start the project
+## Start the project
+For this project I used docker compose to easly spin our services.
 
 ### Step 1: setup the system and dependencies
 Run docker compose to setup the system and bootstrap the ch db:
