@@ -11,4 +11,5 @@ down:
 
 ingestFile:
 	# ingest a sample file in the running ch instance
-	docker run --rm -v $(pwd)/ingest:/usr/src/app -w /usr/src/app node:23.5.0 npm run ingestFile
+	#docker run --rm -v $(pwd)/ingest:/usr/src/app -w /usr/src/app node:23.5.0 npm run ingestFile
+	docker-compose run --rm ingest npm run ingestFile
