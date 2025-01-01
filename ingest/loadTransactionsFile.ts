@@ -29,6 +29,17 @@ const kafka = new Kafka({
 });
 const producer = kafka.producer();
 
+function splitArrayIntoChunks<T>(array: T[], chunkSize: number): T[][] {
+  const chunks: T[][] = [];
+  for (let i = 0; i < array.length; i += chunkSize) {
+    chunks.push(array.slice(i, i + chunkSize));
+  }
+  return chunks;
+}
+
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+
 async function run() {
   // await for kafka client to connect
   try {
@@ -55,14 +66,51 @@ async function run() {
       // send all rows from file in Kafka
       console.log("Start sending batch transactions to Kafka. len: ", results.length);
 
+
+      const kafkaBatchMessages: any = [];
+      for (const transaction of results) {
+        kafkaBatchMessages.push({ value: JSON.stringify(transaction) });
+      }
+    
+      console.log("mapped transaction to kafka messages. len: ", kafkaBatchMessages.length);
+
+      // Split kafkaBatchMessages into chunks so we can send them in batches
+      // but not too much
+      const chunkSize = 2000;
+      const chunks: any[] = splitArrayIntoChunks(kafkaBatchMessages, chunkSize);
+      let processedChunks = 0;
+
+      for (const chunk of chunks) {
+        console.log("sending chunk to kafka: ", chunk.length);
+        await producer.sendBatch({
+          topicMessages: [
+            {
+              topic: 'ch-crypto-transactions',
+              messages: chunk,
+            },
+          ],
+        });
+
+        processedChunks += chunkSize;
+        console.log(`processedChunks: ${processedChunks} of ${kafkaBatchMessages.length} `);
+        await sleep(100); // Add a small delay between sending chunks
+
+      }
+
+      /*
       await producer.sendBatch({
         topicMessages: [
           {
             topic: "ch-crypto-transactions",
-            messages: results,
+            messages: kafkaBatchMessages,
           },
         ],
-      });
+      });*/
+      /*
+      await producer.send({
+        topic: "ch-crypto-transactions",
+        messages: kafkaBatchMessages,
+      });*/
 
       /*for (const transaction of results) {
         console.log("sending transaction to kafka: ", transaction);
