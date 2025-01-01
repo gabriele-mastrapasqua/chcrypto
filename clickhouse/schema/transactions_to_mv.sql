@@ -6,7 +6,7 @@ PRIMARY KEY (`to`)
 ORDER BY (`to`, `block_number`, `tx_index`, `value`)
 
 AS SELECT
-    timestamp,
+    parseDateTimeBestEffort(timestamp) as timestamp,
     status,
     block_number,
     tx_index,

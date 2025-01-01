@@ -6,8 +6,8 @@ DROP TABLE IF EXISTS transactions_to_mv;
 DROP TABLE IF EXISTS kafka_transactions;
 
 CREATE TABLE IF NOT EXISTS kafka_transactions (
-    timestamp DateTime,
-    status Bool,
+    timestamp String,
+    status LowCardinality(String),
     block_number UInt64,
     tx_index UInt32,
     `from` LowCardinality(String),
