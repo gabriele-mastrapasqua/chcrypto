@@ -1,13 +1,13 @@
 # AVAX Cryptocurrency analytics for transactional data in Clickhouse
-This application is a demo on of how to ingest crypto transactional data in Clickhouse, one of the fastest OLAP db, to handle high load of inserts and make queries in near-real time. 
+This application is a demo for ingest crypto transactional data in Clickhouse, one of the fastest OLAP db, able to handle high load of inserts and to make queries in near-real time. 
 
-This project can ingest from a sample file with 1 mil rows from AVAX chain, or with another process that will stream live data from the AVAX mainnet in our db.
+This project can load data from a sample file with 1 mil rows from AVAX chain, or with another process that will stream live data from the AVAX mainnet in clickhouse.
 
 Sample dataset used for AVAX: `43114_txs.csv.tar.gz`
 
 
 ## Architecture
-We will use kafka as a producer for ingestion, clickhouse as a consumer and as a store to save the data and the main data warehouse for this solution. Grafana will be used to monitor the kafka and clikchouse systems and to be used as an administration tool to show some useful charts of the dataset imported.
+We will use kafka as a producer for ingestion, clickhouse as the data warehouse for this solution. Grafana will be used to monitor the kafka and clickhouse and used as an administration tool to show some useful charts of the dataset imported.
 
 ![Architecture](./screenshots/kafka%20to%20clickhouse.png?raw=true)
 
