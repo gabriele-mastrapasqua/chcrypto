@@ -1,10 +1,14 @@
 # AVAX Cryptocurrency analytics for transactional data in Clickhouse
 This application is a demo for ingest crypto transactional data in Clickhouse, one of the fastest OLAP db, able to handle high load of inserts and to make queries in near-real time. 
 
-This project can load data from a sample file with 1 mil rows from AVAX chain, or with another process that will stream live data from the AVAX mainnet in clickhouse.
+## Use case
+This project can load data from a sample file with 1 mil rows from AVAX chain using one script, or with another script we can stream live data from the AVAX mainnet in clickhouse directly.
+
+The use case is:
+- a user can search using `from` and `to` address from AXAV to fetch ordered by `block number` and `transaction index` or by `value`
+- a user can fetch a count of transactions
 
 Sample dataset used for AVAX: `43114_txs.csv.tar.gz`
-
 
 ## Architecture
 We will use kafka as a producer for ingestion, clickhouse as the data warehouse for this solution. Grafana will be used to monitor the kafka and clickhouse and used as an administration tool to show some useful charts of the dataset imported.
@@ -13,7 +17,7 @@ We will use kafka as a producer for ingestion, clickhouse as the data warehouse 
 
 
 #### Kafka
-ingest transactional data then clickhouse streams the data in a table as a first endpoint. Kafka is a supported data source for clickhouse. This enable us to stream the data from kafka to clickhouse seamlessly without writing any custom code.
+Kafka can ingest from the live data from AXAX (or from a file) then clickhouse streams the data in a table. This enable us to stream the data from kafka to clickhouse seamlessly without writing any custom code.
 
 See integrating kafka in Clickhouse for more info: https://clickhouse.com/docs/en/integrations/kafka/kafka-table-engine
 
@@ -24,8 +28,8 @@ We use also kafka UI, it's useful to see messages streamed through kafka and for
 
 #### Clickhouse
 we use those features to improve reading performance for those type of data: 
-    - a Kafka engine table to connect and stream kafka dataset into a table in clickhouse automatically
-    - a materialized view to load final transactions and improve performance for reading based on our use cases, in this example we need to index efficiently for `from` and `to` adresses for all on-chain transactions.
+    - a Kafka engine table to connect and stream kafka dataset into a MergeTree table in clickhouse automatically
+    - a materialized view to load final transactions and improve performance for queries based on our use cases, in this example we need to index efficiently for `from` and `to` adresses for all on-chain transactions.
 
 ![ClickHouse](./screenshots/ch%20webui.png)
 
@@ -110,4 +114,5 @@ For more info read the [api/README](./api/README.md)
 ## TODO - improvements
 - [ ] shared lib for zod and ts types commonly used for ingestion, api, ...
 - [ ] e2e run test for api endpoints with perf check, and write in docker init scrips so it's automatically run after each restart
-- [ ] track ingested files (checksum) so you can skip previous imported files / clean up data from the csv files used for test
+- [ ] track for hostorical ingested files (checksum) so you can skip previous imported files / clean up data from the csv files used for test
+- [ ] improve Clickhouse schemas for other use cases, for example using SummingMergeTree mat views for specific counts and sums for example for total values, ...
