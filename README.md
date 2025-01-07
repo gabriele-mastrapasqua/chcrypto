@@ -116,5 +116,5 @@ For more info read the [api/README](./api/README.md)
 ## TODO - improvements
 - [ ] shared lib for zod and ts types commonly used for ingestion, api, ...
 - [ ] e2e run test for api endpoints with perf check, and write in docker init scrips so it's automatically run after each restart
-- [ ] track for hostorical ingested files (checksum) so you can skip previous imported files / clean up data from the csv files used for test
+- [ ] track for historical imported files (checksum) so you can skip previous imported files / clean up data from the csv files used for test
 - [ ] improve Clickhouse schemas for other use cases, for example using SummingMergeTree mat views for specific counts and sums for example for total values, ...
