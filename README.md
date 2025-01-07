@@ -94,7 +94,7 @@ This will batch send messages to kafka:
 ![ingest from a sample file 1mil rows](./screenshots/ingest%20from%20file.png)
 
 > NOTE: This command is a one time command, useful for debug / test the solution loading 1 mil rows in the db and to check query performance.
-> NOTE: set your docker desktop at least with 2-4gb or ram allocated for all docker services.
+> NOTE: set your docker desktop at least with 2-4gb ram allocated for all docker services.
 
 ### Step 2b: Check Grafana web UI and try some queries
 Grafana is installed in this solution, and can be used as an admin tool to check the ch status and query performances with the default dashboards offered by the plugin, but also to make custom queries and charts using this connector as custom dashboard.
