@@ -27,12 +27,14 @@ We use also kafka UI, it's useful to see messages streamed through kafka and for
 
 
 #### Clickhouse
-we use those features to improve reading performance for those type of data: 
-    - a Kafka engine table to connect and stream kafka dataset into a MergeTree table in clickhouse automatically
-    - a materialized view to load final transactions and improve performance for queries based on our use cases, in this example we need to index efficiently for `from` and `to` adresses for all on-chain transactions.
+we use those features to improve reading performance for those type of data:
+
+- a Kafka engine table to connect and stream kafka dataset into a MergeTree table in clickhouse automatically
+- a materialized view to load final transactions and improve performance for queries based on our use cases, in this example we need to index efficiently for `from` and `to` adresses for all on-chain transactions.
 
 ![ClickHouse](./screenshots/ch%20webui.png)
 
+For clickhouse schemas, see the folder `./clickhouse`
 
 #### Grafana
 Used to monitor (and optionally create alarms on some metrics) kafka and clickhouse nodes. We can also use this tool as an administration frontend to create custom queries for clickhouse, charts and data tables based on the real dataset from the db, without writing a custom frontend.
