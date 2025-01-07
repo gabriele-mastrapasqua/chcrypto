@@ -5,7 +5,7 @@ This application is a demo for ingest crypto transactional data in Clickhouse, o
 This project can load data from a sample file with 1 mil rows from AVAX chain using one script, or with another script we can stream live data from the AVAX mainnet in clickhouse directly.
 
 The use case is:
-- a user can search using `from` and `to` address from AXAV to fetch ordered by `block number` and `transaction index` or by `value`
+- a user can search using `from` and `to` address from AVAX to fetch ordered by `block number` and `transaction index` or by `value`
 - a user can fetch a count of transactions
 
 Sample dataset used for AVAX: `43114_txs.csv.tar.gz`
